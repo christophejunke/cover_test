@@ -1,15 +1,18 @@
 all: main
 
-.PHONY: frama-c coverity
+.PHONY: frama-c coverity clean
 
 frama-c:
-	frama-c main.c \
+	frama-c main_frama.c \
 		~/.opam/4.14.0/share/frama-c/libc/string.c \
 		-eva-slevel=3 \
 		-eva-partition-history=2 \
 		-eva
 
-coverity:
+clean:
+	rm main
+
+coverity: clean
 	cov-build --dir cov-int make
 	tar czf cover_test.tgz cov-int
 	sh ./push.sh
